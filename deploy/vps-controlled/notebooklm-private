@@ -1,0 +1,22 @@
+#!/bin/sh
+# Приватное отображение хранилища секретов без изменения прав каталога /root.
+set -eu
+umask 077
+ulimit -c 0
+if [ "$(id -u)" -ne 0 ]; then
+    echo 'Подготовка приватного хранилища требует запуска владельцем VPS.' >&2
+    exit 1
+fi
+case "${1:-}" in
+    notebooklm|notebooklm-mcp) program="$1"; shift ;;
+    *) echo 'Недопустимая программа.' >&2; exit 2 ;;
+esac
+/usr/bin/mount --bind /root/vault-secrets/notebooklm /var/lib/notebooklm/auth
+cd /var/lib/notebooklm
+exec /usr/bin/setpriv --reuid=notebooklm --regid=notebooklm --init-groups --no-new-privs \
+    /usr/bin/env -i HOME=/var/lib/notebooklm USER=notebooklm LOGNAME=notebooklm \
+    PATH=/usr/bin:/bin LANG=C.UTF-8 PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 \
+    NOTEBOOKLM_HOME=/var/lib/notebooklm/auth NOTEBOOKLM_PROFILE=default \
+    NOTEBOOKLM_BACKEND=web NOTEBOOKLM_MCP_ALLOWED_ROOTS=/var/lib/notebooklm/uploads \
+    FASTMCP_ENABLE_RICH_TRACEBACKS=false OTEL_SDK_DISABLED=true DO_NOT_TRACK=1 \
+    /opt/notebooklm/venv/bin/"$program" "$@"

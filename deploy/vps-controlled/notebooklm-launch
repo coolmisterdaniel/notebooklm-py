@@ -16,23 +16,9 @@ case "${1:-}" in
         ;;
     *) echo 'Укажите cli или mcp.' >&2; exit 2 ;;
 esac
-cd /var/lib/notebooklm
-if [ "$(id -u)" -eq 0 ]; then
-    set -- /usr/bin/env -i HOME=/var/lib/notebooklm USER=notebooklm LOGNAME=notebooklm \
-        PATH=/usr/bin:/bin LANG=C.UTF-8 PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 \
-        NOTEBOOKLM_HOME=/var/lib/notebooklm/auth NOTEBOOKLM_PROFILE=default \
-        NOTEBOOKLM_BACKEND=web NOTEBOOKLM_MCP_ALLOWED_ROOTS=/var/lib/notebooklm/uploads \
-        FASTMCP_ENABLE_RICH_TRACEBACKS=false OTEL_SDK_DISABLED=true DO_NOT_TRACK=1 \
-        /opt/notebooklm/venv/bin/"$program" "$@"
-    exec /usr/bin/setpriv --reuid=notebooklm --regid=notebooklm --init-groups --no-new-privs "$@"
-fi
-if [ "$(id -un)" != notebooklm ]; then
-    echo 'Запуск разрешён только владельцу VPS и пользователю notebooklm.' >&2
+if [ "$(id -u)" -ne 0 ]; then
+    echo 'Запускайте эту команду из терминала владельца VPS.' >&2
     exit 1
 fi
-exec /usr/bin/env -i HOME=/var/lib/notebooklm USER=notebooklm LOGNAME=notebooklm \
-    PATH=/usr/bin:/bin LANG=C.UTF-8 PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 \
-    NOTEBOOKLM_HOME=/var/lib/notebooklm/auth NOTEBOOKLM_PROFILE=default \
-    NOTEBOOKLM_BACKEND=web NOTEBOOKLM_MCP_ALLOWED_ROOTS=/var/lib/notebooklm/uploads \
-    FASTMCP_ENABLE_RICH_TRACEBACKS=false OTEL_SDK_DISABLED=true DO_NOT_TRACK=1 \
-    /opt/notebooklm/venv/bin/"$program" "$@"
+exec /usr/bin/unshare --mount --propagation private \
+    /opt/notebooklm/notebooklm-private "$program" "$@"
