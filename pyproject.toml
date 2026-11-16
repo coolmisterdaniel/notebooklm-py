@@ -61,10 +61,9 @@ headless = ["gpsoauth>=1.1.0"]
 android = ["grpcio==1.84.0", "protobuf==7.36.2", "gpsoauth>=1.1.0"]
 # >=3.0: the remote-transport bearer auth (FastMCP(auth=...) + TokenVerifier)
 # landed in fastmcp 3.0; 2.x lacks it and would ImportError in mcp/_auth.py.
-# Pinned ==4.1.0: fastmcp 3.x pulls beartype 0.22.x, which imports
-# typing.no_type_check_decorator (removed in Python 3.15), so ``import fastmcp``
-# fails on 3.15. 4.x resolves beartype to a 3.15-compatible release.
-mcp = ["fastmcp==4.1.0"]
+# Версия 4.1.2 исправляет GHSA-7xgj-8392-5q4r и GHSA-vqqp-x5qm-5qp4.
+# Ветка 4.x также сохраняет совместимость с Python 3.15.
+mcp = ["fastmcp==4.1.2"]
 # Optional single-tenant REST server (the third _app adapter, after cli/ and
 # mcp/). EXPERIMENTAL: the /v1 surface may change in a minor release; it is
 # excluded from the public-API compatibility gate. python-multipart is REQUIRED

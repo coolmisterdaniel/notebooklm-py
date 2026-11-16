@@ -1,0 +1,62 @@
+{
+  "queries": [
+    {
+      "package": {
+        "name": "hatch-fancy-pypi-readme",
+        "ecosystem": "PyPI"
+      },
+      "version": "25.1.0"
+    },
+    {
+      "package": {
+        "name": "hatchling",
+        "ecosystem": "PyPI"
+      },
+      "version": "1.33.0"
+    },
+    {
+      "package": {
+        "name": "packaging",
+        "ecosystem": "PyPI"
+      },
+      "version": "26.3"
+    },
+    {
+      "package": {
+        "name": "pathspec",
+        "ecosystem": "PyPI"
+      },
+      "version": "1.1.1"
+    },
+    {
+      "package": {
+        "name": "pluggy",
+        "ecosystem": "PyPI"
+      },
+      "version": "1.7.0"
+    },
+    {
+      "package": {
+        "name": "tomlkit",
+        "ecosystem": "PyPI"
+      },
+      "version": "0.15.2"
+    },
+    {
+      "package": {
+        "name": "trove-classifiers",
+        "ecosystem": "PyPI"
+      },
+      "version": "2026.9.21.13"
+    }
+  ],
+  "results": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "upstream": "https://github.com/teng-lin/notebooklm-py",
+  "fork": "https://github.com/coolmisterdaniel/notebooklm-py",
+  "upstream_commit": "956400aa7af6b61b4cb988a24c9a081a3abc4ee8",
+  "upstream_release": "v0.8.6",
+  "python": "3.12.3",
+  "uv": "0.11.17",
+  "extras": [
+    "mcp",
+    "headless"
+  ],
+  "automatic_updates": false,
+  "google_authorized": false
+}
